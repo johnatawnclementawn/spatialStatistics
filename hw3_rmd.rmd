@@ -141,44 +141,50 @@ ggcorrplot(
 ```{r}
 mylogit <- glm(DRINKING_D ~ FATAL_OR_M + OVERTURNED + CELL_PHONE + SPEEDING + AGGRESSIVE + DRIVER1617 + DRIVER65PLUS + PCTBACHMOR + MEDHHINC, data=mydata, family = "binomial")
 summary(mylogit)
+fit <- mylogit$fitted
 
 mylogit1 <- glm(DRINKING_D ~ FATAL_OR_M + OVERTURNED + CELL_PHONE + SPEEDING + AGGRESSIVE + DRIVER1617 + DRIVER65PLUS, data=mydata, family = "binomial")
 summary(mylogit1)
+fit1 <- mylogit1$fitted
+
 
 exp(cbind(OR = coef(mylogit), confint(mylogit)))
+exp(cbind(OR = coef(mylogit1), confint(mylogit1)))
 ```
+
 
 ```{r}
-OR <- exp(coef(mylogit))
-CONFINT <- exp(confint(mylogit))
-```
+fit.binary = (fit>=0.02)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
 
+fit.binary = (fit>=0.03)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.05)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.07)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.08)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.09)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.1)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.15)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
 
 fit.binary = (fit>=0.2)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
-
-fit.binary = (fit>=0.3)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
-
-fit.binary = (fit>=0.4)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
 
 fit.binary = (fit>=0.5)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+CrossTable(fit.binary, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
 
-fit.binary = (fit>=0.6)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
-
-fit.binary = (fit>=0.7)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
-
-fit.binary = (fit>=0.8)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
-
-fit.binary = (fit>=0.9)
-CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
-
-
+```
 
 
 #Histogram of fitted values (predicted probabilities of y = 1)
