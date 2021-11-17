@@ -154,6 +154,29 @@ CONFINT <- exp(confint(mylogit))
 ```
 
 
+fit.binary = (fit>=0.2)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.3)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.4)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.5)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.6)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.7)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.8)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
+
+fit.binary = (fit>=0.9)
+CrossTable(fit.binary, mydata$Hospital, prop.r=FALSE, prop.t=FALSE, prop.c=FALSE, prop.chisq=FALSE)
 
 
 
