@@ -14,7 +14,7 @@ output:
 ---
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE)
 
 # #install.packages("packagename")
@@ -41,7 +41,7 @@ options(scipen = 999)
 ```
 
 # Read Data
-```{r}
+```{r message=FALSE, warning=FALSE}
 setwd("D:/Users/Johnathan/Google Drive/Grad School/PennDesign_MUSA/SpatialStatistics/HW3")
 mydata <- read.csv("Logistic Regression Data.csv")
 head(mydata)
@@ -51,14 +51,14 @@ head(mydata)
 #Tabulations
 ```{r}
 summary(factor(mydata$DRINKING_D))
-summary(factor(mydata$COLLISION_))
-summary(factor(mydata$FATAL_OR_M))
-summary(factor(mydata$OVERTURNED))
-summary(factor(mydata$CELL_PHONE))
-summary(factor(mydata$SPEEDING))
-summary(factor(mydata$AGGRESSIVE))
-summary(factor(mydata$DRIVER1617))
-summary(factor(mydata$DRIVER65PLUS))
+# summary(factor(mydata$COLLISION_))
+# summary(factor(mydata$FATAL_OR_M))
+# summary(factor(mydata$OVERTURNED))
+# summary(factor(mydata$CELL_PHONE))
+# summary(factor(mydata$SPEEDING))
+# summary(factor(mydata$AGGRESSIVE))
+# summary(factor(mydata$DRIVER1617))
+# summary(factor(mydata$DRIVER65PLUS))
 
 #Alternative way of tabulating (and obtaining proportions for each category)
 DRINKING_D.tab <- table(mydata$DRINKING_D)
@@ -84,6 +84,12 @@ prop.table(DRIVER65PLUS.tab)
 
 #Cross-Tabulations
 ```{r}
+#table(mydata$COLLISION_[mydata$DRINKING_D == 1])
+
+
+#test <- CrossTable(mydata$COLLISION_, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.chisq=FALSE, chisq=TRUE)[3]
+
+
 CrossTable(mydata$COLLISION_, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.chisq=FALSE, chisq=TRUE)
 CrossTable(mydata$FATAL_OR_M, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.chisq=FALSE, chisq=TRUE)
 CrossTable(mydata$OVERTURNED, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, prop.chisq=FALSE, chisq=TRUE)
@@ -96,14 +102,43 @@ CrossTable(mydata$DRIVER65PLUS, mydata$DRINKING_D, prop.r=FALSE, prop.t=FALSE, p
 
 
 #Means by group
+```{r}
+print("PCTBACHMOR")
 tapply(mydata$PCTBACHMOR, mydata$DRINKING_D, mean) 
-tapply(mydata$MEDHHINC, mydata$DRINKING_D, mean) 
+tapply(mydata$PCTBACHMOR, mydata$DRINKING_D, sd)
 
+print("MEDHHINC")
+tapply(mydata$MEDHHINC, mydata$DRINKING_D, mean) 
+tapply(mydata$MEDHHINC, mydata$DRINKING_D, sd) 
+```
+
+```{r}
 #Independent samples t-test
+print("PCTBACHMOR")
 t.test(mydata$PCTBACHMOR~mydata$DRINKING_D)
+
+print("MEDHHINC")
 t.test(mydata$MEDHHINC~mydata$DRINKING_D)
+```
+# Pearsons Correlation
+```{r}
+library(ggcorrplot)
+cor(mydata)
+
+
+ggcorrplot(
+  round(cor(mydata), 1), 
+  p.mat = cor_pmat(mydata),
+  colors = c("#FA7800", "white", "#25CB10"),
+  type="lower",
+  lab=TRUE,
+  insig = "blank") +  
+    labs(title = "Correlation across variables")
+```
+
 
 #Logistic Regression
+```{r}
 mylogit <- glm(DRINKING_D ~ FATAL_OR_M + OVERTURNED + CELL_PHONE + SPEEDING + AGGRESSIVE + DRIVER1617 + DRIVER65PLUS + PCTBACHMOR + MEDHHINC, data=mydata, family = "binomial")
 summary(mylogit)
 
@@ -111,11 +146,20 @@ mylogit1 <- glm(DRINKING_D ~ FATAL_OR_M + OVERTURNED + CELL_PHONE + SPEEDING + A
 summary(mylogit1)
 
 exp(cbind(OR = coef(mylogit), confint(mylogit)))
+```
 
+```{r}
 OR <- exp(coef(mylogit))
 CONFINT <- exp(confint(mylogit))
+```
+
+
+
+
+
 
 #Histogram of fitted values (predicted probabilities of y = 1)
+```{r}
 fit <-mylogit$fitted.values
 hist(fit)
 
@@ -145,7 +189,7 @@ e=as.data.frame(d)
 
 #Cross-tabulation
 CrossTable(e$Prob.Above.Cutoff, e$Observed.DRINKING_D, prop.r=FALSE,prop.chisq=FALSE, chisq=FALSE,prop.t=FALSE)
-
+```
 
 #ROC Curve
 #For more info, see: https://hopstat.wordpress.com/2014/12/19/a-small-introduction-to-the-rocr-package/
@@ -153,7 +197,7 @@ CrossTable(e$Prob.Above.Cutoff, e$Observed.DRINKING_D, prop.r=FALSE,prop.chisq=F
 #Here, predictions are estimated probabilities (i.e., p or y-hat values)
 #Also, labels are actual y-values
 
-
+```{r}
 #a <- cbind(mydata$DRINKING_D, fit)
 #From above, we see that matrix a has 2 columns: 
 #1. The first one is mydata$DRINKING_D, which are actual 
@@ -198,6 +242,8 @@ opt.cut = function(perf, pred){
 #This will print the optimal cut-off point and the corresponding
 #specificity and sensitivity 
 print(opt.cut(roc.perf, pred))
+```
+
 
 #Area under the curve
 #Source: http://gim.unmc.edu/dxtests/roc3.htm
@@ -215,6 +261,7 @@ print(opt.cut(roc.perf, pred))
 
 #These might be somewhat conservative estimates, and there will
 #be statisticians who will say that area > .7 is just fine.
-
+```{r}
 auc.perf = performance(pred, measure ="auc")
 auc.perf@y.values
+```
