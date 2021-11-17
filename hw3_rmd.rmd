@@ -10,7 +10,6 @@ output:
     toc_float:
       collapsed: true
       smooth_scroll: true
-    code_folding: hide
 ---
 
 
@@ -42,8 +41,8 @@ options(scipen = 999)
 
 # Read Data
 ```{r message=FALSE, warning=FALSE}
-setwd("D:/Users/Johnathan/Google Drive/Grad School/PennDesign_MUSA/SpatialStatistics/HW3")
-mydata <- read.csv("Logistic Regression Data.csv")
+
+mydata <- read.csv("D:/OneDrive/WORK/Upenn/MUSA_500_Spatial_Statistics_Data_Analysis_Eugene/HW_Assignments/HW3/Homework_Assignments_export/HW 3/Logistic Regression Data.csv")
 head(mydata)
 ```
 
@@ -243,7 +242,7 @@ pred <- prediction(roc$predictions, roc$labels)
 #Below, tpr = true positive rate, another term for sensitivity
 #fpr = false positive rate, or 1-specificity
 roc.perf = performance(pred, measure = "tpr", x.measure="fpr")
-plot(roc.perf)
+plot(roc.perf,size=10)
 abline(a=0,b=1)
 
 #Optimal cut-point, if you want to weigh specificity and
